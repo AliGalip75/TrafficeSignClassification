@@ -28,6 +28,6 @@ def predict_traffic_sign(image_path):
     return labelNames[predicted_class], preds[0][predicted_class] * 100
 
 
-image_path = "your_image"
+image_path = "your_image.png"
 sign_name, confidence = predict_traffic_sign(image_path)
 print(f"Tahmin: {sign_name}, Güven: {confidence:.2f}%")
