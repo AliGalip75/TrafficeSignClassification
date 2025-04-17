@@ -3,7 +3,7 @@ Bu proje, Almanya Trafik İşaretleri Veri Seti (GTSRB) kullanılarak trafik iş
 
 🗂️ Veri Seti
 Veri seti: GTSRB - German Traffic Sign Dataset
-İndirildikten sonra şu dosyaları içerir:
+İndirildikten sonra şu dosyaları içerir( Bu dosyaları tek bir dosya halinde ana dizin altına ekleyin):
 
 Train.csv
 
@@ -18,13 +18,10 @@ Test/ klasörü
 Meta/ klasörü
 
 ⚙️ Gereksinimler
-Aşağıdaki Python paketlerinin kurulu olması gerekir. Tümünü tek komutla kurmak için requirements.txt dosyasını kullanabilirsiniz:
+Aşağıdaki Python paketlerinin kurulu olması gerekir(python 3.9 ile sorunsuz çalışıyor). Tümünü tek komutla kurmak için requirements.txt dosyasını kullanabilirsiniz:
 
 requirements.txt
-makefile
-Kopyala
-Düzenle
-python==3.9
+----------------
 tensorflow==2.8.0
 matplotlib
 scikit-learn==1.6.1
@@ -48,3 +45,16 @@ Argüman	Açıklama
 --dataset	GTSRB veri setinin yolu
 --model	Eğitilen modelin kaydedileceği dosya yolu
 --plot	Eğitim geçmişini gösteren grafik dosyasının yolu
+
+🔍 Tahmin 
+Eğitilmiş modeli kullanarak yeni bir trafik işareti görselinin sınıfını tahmin edebilirsiniz. Bunun için predict.py dosyasındaki image_path değişkenine kendi görselinizin yolunu girmeniz yeterlidir:
+
+# predict.py
+image_path = "your_image.png"
+sign_name, confidence = predict_traffic_sign(image_path)
+
+Sonuç olarak konsolda şu şekilde bir çıktı alırsınız:
+Tahmin Edilen İşaret: Speed limit (30km/h)
+Güven Skoru: 98.7%
+
+Not: predict_traffic_sign() fonksiyonunun model ve sınıf isimlerini düzgün şekilde yüklediğinden emin olun.
