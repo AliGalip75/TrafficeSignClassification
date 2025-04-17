@@ -31,26 +31,19 @@ scikit-learn==1.6.1
 scikit-image==0.24.0
 imutils==0.5.4
 numpy==1.24.3
+
 Kurulum için:
-
-bash
-Kopyala
-Düzenle
 pip install -r requirements.txt
-🚀 Eğitim (Training)
+
+🚀 Eğitim
+
 Aşağıdaki komut ile modeli eğitebilirsiniz:
-
-bash
-Kopyala
-Düzenle
 python train.py --dataset "veri_seti_dizini" --model "çıktı_model_yolu" --plot "çıktı_plot_yolu"
-Örnek Kullanım
-bash
-Kopyala
-Düzenle
-python train.py --dataset "C:\\Users\\galip\\Desktop\\Traffic_Sign_Recognition\\gtsrb-germantraffic-sign" --model output/model.model --plot output/plot.png
-Komut Satırı Argümanları
 
+Örnek Kullanım
+python train.py --dataset "C:\\Users\\galip\\Desktop\\Traffic_Sign_Recognition\\gtsrb-germantraffic-sign" --model output/model.model --plot output/plot.png
+
+Komut Satırı Argümanları
 Argüman	Açıklama
 --dataset	GTSRB veri setinin yolu
 --model	Eğitilen modelin kaydedileceği dosya yolu
