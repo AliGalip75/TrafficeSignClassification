@@ -7,7 +7,7 @@ Bu proje, **Almanya Trafik İşaretleri Veri Seti (GTSRB)** kullanılarak trafik
 ## 🗂️ Veri Seti
 
 Veri seti: [GTSRB - German Traffic Sign Dataset](https://www.kaggle.com/datasets/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign)  
-İndirildikten sonra şu dosyaları içerir (Bu dosyaları tek bir dizine çıkartın):
+İndirildikten sonra şu dosyaları içerir (Bu dosyaları tek bir dizin halinde ana klasöre ekleyin):
 
 - `Train.csv`
 - `Test.csv`
