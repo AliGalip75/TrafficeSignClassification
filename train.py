@@ -5,6 +5,7 @@ from main.main import TrafficSignNet
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.metrics import classification_report
 from skimage import transform
 from skimage import exposure
@@ -71,8 +72,8 @@ args = vars(ap.parse_args())
 
 
 # Eğitim için epoch sayısı, öğrenme oranı ve batch boyutu
-NUM_EPOCHS = 30
-INIT_LR = 1e-3
+NUM_EPOCHS = 40
+INIT_LR = 1e-4
 BS = 64
 
 # Etiket isimlerini yükle
@@ -84,8 +85,6 @@ labelNames = [l.split(",")[1] for l in labelNames]
 trainPath = os.path.join(args["dataset"], "Train.csv")
 testPath = os.path.join(args["dataset"], "Test.csv")
 
-#trainPath = "C:\\Users\galip\Desktop\Traffice_Sign_Recognition\gtsrb-germantraffice-sign\Train.csv"
-#testPath = "C:\\Users\galip\Desktop\Traffice_Sign_Recognition\gtsrb-germantraffice-sign\Test.csv"
 
 # Eğitim ve test verilerini yükle
 print("[INFO] loading training and testing data...")
@@ -112,8 +111,8 @@ for i in range(0, len(classTotals)):
 
 # Veri artırma için görüntü üreticisini oluştur
 aug = ImageDataGenerator(
-	rotation_range=10,
-	zoom_range=0.15,
+	rotation_range=5,
+	zoom_range=0.1,
 	width_shift_range=0.1,
 	height_shift_range=0.1,
 	shear_range=0.15,
@@ -121,13 +120,18 @@ aug = ImageDataGenerator(
 	vertical_flip=False,
 	fill_mode="nearest")
 
-
 print("[INFO] compiling model...")
-opt = Adam(lr=INIT_LR, decay=INIT_LR / (NUM_EPOCHS * 0.5))
+opt = Adam(learning_rate=INIT_LR, decay=INIT_LR / (NUM_EPOCHS * 0.5))
 model = TrafficSignNet.build(width=32, height=32, depth=3,
 	classes=numLabels)
 model.compile(loss="categorical_crossentropy", optimizer=opt,
 	metrics=["accuracy"])
+
+early = EarlyStopping(          # Erken durdurma
+    monitor='val_loss',         # neyi izleyecek
+    patience=5,                 # 5 epoch boyunca gelişme olmazsa dur
+    restore_best_weights=True  # en iyi ağırlıkları geri yükle
+)
 
 # training
 print("[INFO] training network...")
@@ -137,6 +141,7 @@ H = model.fit(
 	steps_per_epoch=trainX.shape[0] // BS,
 	epochs=NUM_EPOCHS,
 	class_weight=classWeight,
+    callbacks=early,
 	verbose=1)
 
 # Değerlendirme
@@ -149,7 +154,7 @@ print(classification_report(testY.argmax(axis=1),
 model.save(args["model"])
 
 # Eğitilen modelin verilerini matplotlib ile göster
-N = np.arange(0, NUM_EPOCHS)
+N = np.arange(0, len(H.history["loss"]))
 plt.style.use("ggplot")
 plt.figure()
 plt.plot(N, H.history["loss"], label="train_loss")

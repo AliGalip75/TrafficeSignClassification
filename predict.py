@@ -7,7 +7,7 @@ import numpy as np
 from tensorflow.keras.models import load_model
 
 # Eğittiğimiz modeli kullanıyoruz
-model = load_model('output/trafficsignnet.model')
+model = load_model('output/model.model')
 
 def predict_traffic_sign(image_path):
     # Görüntüyü yükle ve işle
@@ -27,7 +27,7 @@ def predict_traffic_sign(image_path):
 
     return labelNames[predicted_class], preds[0][predicted_class] * 100
 
-
-image_path = "your_image.png"
+#***** kendi görsel yolunuz *****
+image_path = "gtsrb-germantraffice-sign/Test/01490.png"
 sign_name, confidence = predict_traffic_sign(image_path)
 print(f"Tahmin: {sign_name}, Güven: {confidence:.2f}%")
